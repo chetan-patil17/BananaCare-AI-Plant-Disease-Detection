@@ -501,7 +501,7 @@ function Dashboard() {
                                 {latestDiagnosis.imageUrl && (
 
                                     <img
-                                        src={`http://localhost:8080${latestDiagnosis.imageUrl}`}
+                                        src={`${(import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api").replace(/\/api$/, "")}${latestDiagnosis.imageUrl}`}
                                         alt="Diagnosed banana leaf"
                                         className="diagnosis-image"
                                     />

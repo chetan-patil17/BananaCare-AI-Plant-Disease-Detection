@@ -21,12 +21,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Value("${bananacare.allowed-origins}")
+    private String allowedOrigins;
 
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthenticationFilter
@@ -72,12 +76,18 @@ public class SecurityConfig {
                 new CorsConfiguration();
 
         // React frontend
-        configuration.setAllowedOrigins(
-                List.of(
-                        "http://localhost:5173",
-                        "http://127.0.0.1:5173"
-                )
-        );
+        if (allowedOrigins != null && !allowedOrigins.trim().isEmpty()) {
+            configuration.setAllowedOrigins(
+                    List.of(allowedOrigins.split(","))
+            );
+        } else {
+            configuration.setAllowedOrigins(
+                    List.of(
+                            "http://localhost:5173",
+                            "http://127.0.0.1:5173"
+                    )
+            );
+        }
 
         configuration.setAllowedMethods(
                 List.of(

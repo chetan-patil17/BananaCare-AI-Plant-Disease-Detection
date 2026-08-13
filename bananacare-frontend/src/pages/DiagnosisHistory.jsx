@@ -218,7 +218,9 @@ function DiagnosisHistory() {
             return diagnosis.imageUrl;
         }
 
-        return `http://localhost:8080${diagnosis.imageUrl}`;
+        const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+        const serverBase = apiBase.replace(/\/api$/, "");
+        return `${serverBase}${diagnosis.imageUrl}`;
     };
 
     // =====================================================

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,9 +17,12 @@ public class AiPredictionService {
 
     private final RestClient restClient;
 
-    public AiPredictionService(RestClient.Builder restClientBuilder) {
+    public AiPredictionService(
+            RestClient.Builder restClientBuilder,
+            @Value("${ai.service.url}") String aiServiceUrl
+    ) {
         this.restClient = restClientBuilder
-                .baseUrl("http://localhost:8000")
+                .baseUrl(aiServiceUrl)
                 .build();
     }
 
