@@ -77,9 +77,11 @@ public class SecurityConfig {
 
         // React frontend
         if (allowedOrigins != null && !allowedOrigins.trim().isEmpty()) {
-            configuration.setAllowedOrigins(
-                    List.of(allowedOrigins.split(","))
-            );
+            List<String> origins = java.util.stream.Stream.of(allowedOrigins.split(","))
+                    .map(String::trim)
+                    .map(origin -> origin.endsWith("/") ? origin.substring(0, origin.length() - 1) : origin)
+                    .toList();
+            configuration.setAllowedOrigins(origins);
         } else {
             configuration.setAllowedOrigins(
                     List.of(
